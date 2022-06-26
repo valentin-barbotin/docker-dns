@@ -61,6 +61,24 @@ services:
       ratio:
         ipv4_address: 172.20.0.21
 
+  ubuntu:
+    depends_on: 
+      - nginx
+    image: ubuntu:22.04
+    restart: always
+    hostname: ubuntu
+    command: ["/bin/bash", "-c", "sleep infinity"]
+    volumes:
+      - type: "bind"
+        source: "C:\\Users\\valen\\Documents\\tafflinux\\createusers.sh"
+        target: "/root/createusers.sh"
+      - type: "bind"
+        source: "C:\\Users\\valen\\Documents\\tafflinux\\users.txt"
+        target: "/root/users.txt"
+    networks:
+      ratio:
+        ipv4_address: 172.20.0.70
+
 networks:
   ratio:
     ipam:
