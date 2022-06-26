@@ -1,0 +1,69 @@
+version: '3.9'
+
+services:
+  dns1:
+    image: 'internetsystemsconsortium/bind9:9.19'
+    restart: always
+    volumes:
+      - type: "bind"
+        source: "C:\\Users\\valen\\Documents\\tafflinux\\resolv.conf"
+        target: "/etc/resolv.conf"
+      - type: "bind"
+        source: "C:\\Users\\valen\\Documents\\tafflinux\\bind\\db.ptdr.fr"
+        target: "/etc/bind/db.ptdr.fr"
+      - type: "bind"
+        source: "C:\\Users\\valen\\Documents\\tafflinux\\bind\\named.conf.local.master"
+        target: "/etc/bind/named.conf.local"
+    hostname: dns1
+    networks:
+      ratio:
+        ipv4_address: 172.20.0.10
+
+  dns2:
+    image: 'internetsystemsconsortium/bind9:9.19'
+    restart: always
+    volumes:
+      - type: "bind"
+        source: "C:\\Users\\valen\\Documents\\tafflinux\\bind\\db.ptdr.fr"
+        target: "/etc/bind/db.ptdr.fr"
+      - type: "bind"
+        source: "C:\\Users\\valen\\Documents\\tafflinux\\bind\\named.conf.local.slave"
+        target: "/etc/bind/named.conf.local"
+    hostname: dns2
+    networks:
+      ratio:
+        ipv4_address: 172.20.0.11
+  
+  nginx:
+    image: nginx
+    ports:
+      - "8081:80"
+    restart: always
+    volumes:
+      - type: "bind"
+        source: "C:\\Users\\valen\\Documents\\tafflinux\\resolv.conf"
+        target: "/etc/resolv.conf"
+    hostname: nginx
+    networks:
+      ratio:
+        ipv4_address: 172.20.0.21
+
+networks:
+  ratio:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
+# dns1
+# installer bind (bind9)
+
+# dns2
+# installer bind (bind9)
+
+# nginx
+# installer nginx
+
+
+# configuration commune sur les 2 serveurs dns
+# dns1 -> named.conf.local.master
+# dns2, dns3, dns4 -> named.conf.local.slave
