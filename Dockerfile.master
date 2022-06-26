@@ -1,0 +1,6 @@
+FROM internetsystemsconsortium/bind9:9.19
+
+COPY resolv.conf /etc/resolv.conf
+COPY bind/db.ptdr.fr /etc/bind/db.ptdr.fr
+COPY bind/named.conf.local.master /etc/bind/named.conf.local
+COPY resolv.conf /etc/resolv.conf

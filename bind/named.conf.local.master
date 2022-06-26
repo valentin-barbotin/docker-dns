@@ -7,7 +7,7 @@
 //include "/etc/bind/zones.rfc1918";
 
 zone "ptdr.fr" {
-    type primary;
+    type master;
     allow-transfer
     {
        172.20.0.11;
