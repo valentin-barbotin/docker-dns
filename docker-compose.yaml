@@ -70,6 +70,9 @@ services:
     command: ["/bin/bash", "-c", "sleep infinity"]
     volumes:
       - type: "bind"
+        source: "C:\\Users\\valen\\Documents\\tafflinux\\script.sh"
+        target: "/root/script.sh"
+      - type: "bind"
         source: "C:\\Users\\valen\\Documents\\tafflinux\\createusers.sh"
         target: "/root/createusers.sh"
       - type: "bind"
