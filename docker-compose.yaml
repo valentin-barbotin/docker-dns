@@ -62,8 +62,8 @@ services:
         ipv4_address: 172.20.0.21
 
   ubuntu:
-    depends_on: 
-      - nginx
+    # depends_on: 
+    #   - nginx
     image: ubuntu:22.04
     restart: always
     dns:

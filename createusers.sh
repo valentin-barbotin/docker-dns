@@ -15,32 +15,33 @@ function checkGroups () {
     local groups=$2
     grps=($(echo -e "$groups" | awk -F: '{$NF=$1=$2=$3=""; sub(/^[ \t]+/, ""); print $0}'))
     for grp in "${grps[@]}"; do
-        if [ -z "$(grep -e ^${grp} /etc/group)" ]; then
-            echo "Group ${grp} does not exist"
+        if [ -z "$(grep -e ^${grp}: /etc/group)" ]; then
             groupadd ${grp} && echo "Group ${grp} created" || echo "Failed to create group ${grp}"
         fi
 
         usermod -aG ${grp} ${LOGIN} && echo "User ${LOGIN} added to group ${grp}" || echo "User ${LOGIN} not added to group ${grp}"
-        
+
     done
 
 }
 
 
-if [ -z "$(grep groupe1 /etc/group)" ]; then
+if [ -z "$(grep -e ^groupe1: /etc/group)" ]; then
     groupadd groupe1
 fi
 
 cat users.txt | while read line; do
   LOGIN=$(echo $line | awk -F: '{print $1}')
+  PRENOM=$(echo $line | awk -F: '{print $2}')
+  NOM=$(echo $line | awk -F: '{print $3}')
   PASSWORD=$(echo $line | awk -F: '{print $NF}')
 
-  if [ -z "$(grep $LOGIN /etc/passwd)" ]; then
+  if [ -z "$(grep -e ^$LOGIN: /etc/passwd)" ]; then
     echo "User $LOGIN does not exist"
     echo "Creating user $LOGIN"
 
     # Create the user
-    useradd $LOGIN --create-home --groups groupe1 --password $PASSWORD
+    useradd $LOGIN --create-home --groups groupe1 --password $PASSWORD && echo "User $LOGIN created" || echo "Failed to create user $LOGIN"
     chage --lastday 0 $LOGIN
     nb=$((5 + RANDOM % $((10-5))))
     echo "User $LOGIN created with password $PASSWORD"
@@ -56,6 +57,9 @@ cat users.txt | while read line; do
     done
 
   fi
+
+  sed -i '/^#User: '$LOGIN':/d' /etc/passwd
+  echo "#User: '$LOGIN' prenom: '$PRENOM' nom: '$NOM'" >> /etc/passwd
 
   checkGroups $LOGIN $line
 done
