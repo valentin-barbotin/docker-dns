@@ -81,6 +81,9 @@ services:
       - type: "bind"
         source: "C:\\Users\\valen\\Documents\\tafflinux\\users.txt"
         target: "/root/users.txt"
+      - type: "bind"
+        source: "C:\\Users\\valen\\Documents\\tafflinux\\searchExecutable.sh"
+        target: "/root/searchExecutable.sh"
     networks:
       ratio:
         ipv4_address: 172.20.0.70

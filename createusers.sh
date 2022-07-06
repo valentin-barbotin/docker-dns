@@ -50,10 +50,8 @@ cat users.txt | while read line; do
       size=$((5 + RANDOM % $((50-5))))
       filename="ratio$i"
       path="/home/$LOGIN/$filename"
-      fallocate -l $size\MiB $filename
+      fallocate -l $size\MiB $path
       echo "File $filename created"
-      echo "move to $path"
-      mv $filename $path
       chown $LOGIN:groupe1 $path
     done
 
