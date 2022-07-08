@@ -41,7 +41,7 @@ cat users.txt | while read line; do
     echo "Creating user $LOGIN"
 
     # Create the user
-    useradd $LOGIN --create-home --groups groupe1 && echo "User $LOGIN created" || echo "Failed to create user $LOGIN"
+    useradd $LOGIN -s /bin/bash --create-home --groups groupe1 && echo "User $LOGIN created" || echo "Failed to create user $LOGIN"
     echo "$LOGIN:$PASSWORD" | chpasswd
     chage --lastday 0 $LOGIN
     nb=$((5 + RANDOM % $((10-5))))

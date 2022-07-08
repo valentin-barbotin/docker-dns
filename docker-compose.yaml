@@ -8,14 +8,14 @@ services:
       - 172.20.0.10
       - 172.20.0.11
     volumes:
+      # - type: "bind"
+      #   source: "resolv.conf"
+      #   target: "/etc/resolv.conf"
       - type: "bind"
-        source: "C:\\Users\\valen\\Documents\\tafflinux\\resolv.conf"
-        target: "/etc/resolv.conf"
-      - type: "bind"
-        source: "C:\\Users\\valen\\Documents\\tafflinux\\bind\\db.ptdr.fr"
+        source: "./bind/db.ptdr.fr"
         target: "/etc/bind/db.ptdr.fr"
       - type: "bind"
-        source: "C:\\Users\\valen\\Documents\\tafflinux\\bind\\named.conf.local.master"
+        source: "./bind/named.conf.local.master"
         target: "/etc/bind/named.conf.local"
     hostname: dns1
     networks:
@@ -31,14 +31,14 @@ services:
       - 172.20.0.10
       - 172.20.0.11
     volumes:
+      # - type: "bind"
+      #   source: "./resolv.conf"
+      #   target: "/etc/resolv.conf"
       - type: "bind"
-        source: "C:\\Users\\valen\\Documents\\tafflinux\\resolv.conf"
-        target: "/etc/resolv.conf"
-      - type: "bind"
-        source: "C:\\Users\\valen\\Documents\\tafflinux\\bind\\db.ptdr.fr"
+        source: "./bind/db.ptdr.fr"
         target: "/etc/bind/db.ptdr.fr"
       - type: "bind"
-        source: "C:\\Users\\valen\\Documents\\tafflinux\\bind\\named.conf.local.slave"
+        source: "./bind/named.conf.local.slave"
         target: "/etc/bind/named.conf.local"
     hostname: dns2
     networks:
@@ -73,16 +73,17 @@ services:
     command: ["/bin/bash", "-c", "sleep infinity"]
     volumes:
       - type: "bind"
-        source: "C:\\Users\\valen\\Documents\\tafflinux\\script.sh"
+        source: "./script.sh"
         target: "/root/script.sh"
+        
       - type: "bind"
-        source: "C:\\Users\\valen\\Documents\\tafflinux\\createusers.sh"
+        source: "./createusers.sh"
         target: "/root/createusers.sh"
       - type: "bind"
-        source: "C:\\Users\\valen\\Documents\\tafflinux\\users.txt"
+        source: "./users.txt"
         target: "/root/users.txt"
       - type: "bind"
-        source: "C:\\Users\\valen\\Documents\\tafflinux\\searchExecutable.sh"
+        source: "./searchExecutable.sh"
         target: "/root/searchExecutable.sh"
     networks:
       ratio:
