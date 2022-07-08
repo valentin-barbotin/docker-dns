@@ -37,23 +37,19 @@ done
 
 
 for user in $(ls /home); do
-    # create .bashrc file if it doesn't exist
-    if [[ ! -f /home/$user/.bashrc ]]; then
-        touch /home/$user/.bashrc
-    fi
+    touch /home/$user/.bashrc
     # add lines to .bashrc file if not exist
     if [[ ! $(grep "cat /home/.sizes" /home/$user/.bashrc) ]]; then
-        cat << EOF > /home/$user/.bashrc
+        cat << EOF >> /home/$user/.bashrc
+if [[ -f /home/.sizes ]]; then
+    cat /home/.sizes
+fi
 
-        if [[ -f /home/.sizes ]]; then
-            cat /home/.sizes
-        fi
-
-        # check if user is over 100Mo
-        size=$(du -s $HOME | cut -f1)
-        if [[ $size -gt 100000000 ]]; then
-            echo "WARNING: you home is over 100Mo"
-        fi
+# check if user is over 100Mo
+size=\$(du -s \$HOME | cut -f1)
+if [[ \$size -gt 100000 ]]; then
+    echo "WARNING: you home is over 100Mo"
+fi
 EOF
 
     fi
